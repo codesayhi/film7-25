@@ -1,6 +1,11 @@
 <?php
 
+use App\Exceptions\BadRequestException;
+use App\Exceptions\ForbiddenException;
 use App\Exceptions\NotFoundException;
+use App\Exceptions\ServerErrorException;
+use App\Exceptions\UnauthorizedException;
+use App\Exceptions\ValidationException;
 use App\Helpers\ApiResponse;
 use App\Http\Middleware\ValidateIdParameter;
 use Illuminate\Foundation\Application;
@@ -23,6 +28,21 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         if (request()->is('api/*')) {
             $exceptions->render(function (NotFoundException $e) {
+                return $e->toResponse();
+            });
+            $exceptions->render(function (ValidationException $e) {
+                return $e->toResponse();
+            });
+            $exceptions->render(function (BadRequestException $e) {
+                return $e->toResponse();
+            });
+            $exceptions->render(function (ForbiddenException $e) {
+                return $e->toResponse();
+            });
+            $exceptions->render(function (ServerErrorException $e) {
+                return $e->toResponse();
+            });
+            $exceptions->render(function (UnauthorizedException $e) {
                 return $e->toResponse();
             });
         }

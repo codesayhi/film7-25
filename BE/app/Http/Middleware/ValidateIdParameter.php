@@ -12,7 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 class ValidateIdParameter
 {
     /**
-     * Handle an incoming request.
+     * Thực hiện validate id parameter
+     * Nếu id không tồn tại hoặc không phải là số nguyên hợp lệ thì trả về lỗi 400
+     * Nếu id tồn tại và là số nguyên hợp lệ thì tiếp tục xử lý request
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
@@ -23,7 +25,7 @@ class ValidateIdParameter
         if ($id === null || !is_numeric($id) || (int)$id <= 0 || $id != (int)$id) {
             Log::info('Invalid ID detected', ['id' => $id]);
             return ApiResponse::error(
-                message: 'ID không hợp lệ. ID phải là một số nguyên dương.',
+                message: 'Không tồn tại dữ liệu',
                 status: HttpCodeEnum::BadRequest->value,
             );
         }
