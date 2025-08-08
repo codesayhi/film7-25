@@ -4,11 +4,15 @@ namespace App\Repositories\Eloquent;
 
 use App\Exceptions\NotFoundException;
 use App\Repositories\Interfaces\BaseRepositoryInterface;
+use App\Traits\Filterable;
 use DragonCode\Contracts\Cashier\Config\Payments\Map;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BaseRepository implements BaseRepositoryInterface
 {
+    use Filterable;
 
     protected $model;
 
@@ -17,54 +21,62 @@ class BaseRepository implements BaseRepositoryInterface
         $this->model = $model;
     }
 
-    public function all()
+    public function all() : Collection
     {
         return $this->model->all();
     }
 
 
-    public function findById(int $id)
+    public function findById(int $id) : ?Model
     {
         $result = $this->model->find($id);
         return $result;
     }
 
-    public function allPaginate(int $perPage = 10)
+    public function allPaginate(int $perPage = 10) : LengthAwarePaginator
     {
         return $this->model->paginate($perPage);
     }
 
-    public function create(array $data)
+    public function allPaginateWithFilter(array $request) : LengthAwarePaginator
+    {
+        $perPage = $request['per_page'] ?? 10;
+
+        // Sử dụng trait Filterable thông qua model
+        return $this->model->filter($request)->paginate($perPage);
+    }
+
+    public function create(array $data) : Model
     {
         return $this->model->create($data);
     }
 
-    public function update(Model $model, array $data)
+    public function update(Model $model, array $data) : bool
     {
         return $model->update($data);
     }
 
-    public function softDelete(Model $model)
+    public function softDelete(Model $model) : bool
     {
         return $model->delete();
     }
 
-    public function restore(Model $model)
+    public function restore(Model $model) : bool
     {
         return $model->restore();
     }
 
-    public function forceDelete(Model $model)
+    public function forceDelete(Model $model) : bool
     {
         return $model->forceDelete();
     }
 
-    public function findByIdTrashed(int $id)
+    public function findByIdTrashed(int $id) : ?Model
     {
         return $this->model->onlyTrashed()->find($id);
     }
 
-    public function allTrashedPaginate(int $perPage = 10)
+    public function allTrashedPaginate(int $perPage = 10) : LengthAwarePaginator
     {
         return $this->model->onlyTrashed()->paginate($perPage);
     }

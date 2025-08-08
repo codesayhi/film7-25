@@ -10,8 +10,8 @@ class ListCountryService
     {
     }
 
-    public function handle() {
-        $countries = $this->countryRepository->allPaginate();
+    public function handle(array $request) {
+        $countries = $this->countryRepository->allPaginateWithFilter($request);
         return $countries;
     }
 }

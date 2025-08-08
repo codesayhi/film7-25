@@ -2,8 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
-use App\Enums\PaginateEnum;
-
 interface CountryRepositoryInterface extends BaseRepositoryInterface {
-    public function getListFilter(array $filter, int $perPage = PaginateEnum::Default->value);
+    // Tất cả các phương thức filter đã có sẵn trong BaseRepositoryInterface
+    // Không cần thêm phương thức riêng cho Country
 }

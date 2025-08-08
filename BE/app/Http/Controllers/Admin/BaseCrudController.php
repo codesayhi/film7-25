@@ -6,7 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Http\Request;
 /**
  * @package App\Http\Controllers\Admin
  * @author
@@ -49,9 +49,10 @@ class BaseCrudController extends Controller
      * - Trả về kết quả
      * - Nếu lỗi, trả về lỗi
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->serviceList->handle();
+        $request = $request->all();
+        $data = $this->serviceList->handle($request);
         return ApiResponse::success($this->resourceList::collection($data));
     }
 
