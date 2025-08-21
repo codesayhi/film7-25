@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
  * @author
  * Các phương thức cơ bản cho các controller CRUD
  */
-class BaseCrudController extends Controller
+abstract class BaseCrudController extends Controller
 {
     /**
      * Khai báo các service, resource, request class

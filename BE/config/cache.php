@@ -104,5 +104,11 @@ return [
     */
 
     'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-cache-'),
+    'ttl' => [
+        'countries'=>[
+            'list'=>env('CACHE_TTL_COUNTRIES_LIST', 60 ),
+            'detail'=>env('CACHE_TTL_COUNTRIES_DETAIL', 60),
+        ]
+    ],
 
 ];
