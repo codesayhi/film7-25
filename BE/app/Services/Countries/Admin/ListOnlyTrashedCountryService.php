@@ -10,9 +10,9 @@ class ListOnlyTrashedCountryService
     {
     }
 
-    public function handle()
+    public function handle(array $request)
     {
-        $countries = $this->countryRepository->allTrashedPaginate();
+        $countries = $this->countryRepository->allTrashedPaginate(request:$request);
         return $countries;
     }
 }

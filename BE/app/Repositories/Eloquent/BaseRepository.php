@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Enums\PaginateEnum;
 use App\Exceptions\NotFoundException;
 use App\Repositories\Interfaces\BaseRepositoryInterface;
 use App\Traits\Filterable;
@@ -33,14 +34,14 @@ class BaseRepository implements BaseRepositoryInterface
         return $result;
     }
 
-    public function allPaginate(int $perPage = 10) : LengthAwarePaginator
+    public function allPaginate(int $perPage = PaginateEnum::Default->value) : LengthAwarePaginator
     {
         return $this->model->paginate($perPage);
     }
 
     public function allPaginateWithFilter(array $request) : LengthAwarePaginator
     {
-        $perPage = $request['per_page'] ?? 10;
+        $perPage = $request['per_page'] ?? PaginateEnum::Default->value;
 
         // Sử dụng trait Filterable thông qua model
         return $this->model->filter($request)->paginate($perPage);
@@ -76,8 +77,8 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->onlyTrashed()->find($id);
     }
 
-    public function allTrashedPaginate(int $perPage = 10) : LengthAwarePaginator
+    public function allTrashedPaginate(int $perPage = PaginateEnum::Default->value, array $request) : LengthAwarePaginator
     {
-        return $this->model->onlyTrashed()->paginate($perPage);
+        return $this->model->filter($request)->onlyTrashed()->paginate($perPage);
     }
 }

@@ -95,6 +95,6 @@ interface BaseRepositoryInterface
      * @param int $perPage Số lượng records trên mỗi trang
      * @return LengthAwarePaginator Trả về paginator object chứa dữ liệu đã bị soft delete và phân trang
      */
-    public function allTrashedPaginate(int $perPage = PaginateEnum::Default->value) : LengthAwarePaginator;
+    public function allTrashedPaginate(int $perPage = PaginateEnum::Default->value, array $request) : LengthAwarePaginator;
 
 }

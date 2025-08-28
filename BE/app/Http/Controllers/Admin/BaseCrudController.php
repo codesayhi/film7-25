@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+
 /**
  * @package App\Http\Controllers\Admin
  * @author
@@ -189,9 +190,10 @@ abstract class BaseCrudController extends Controller
      * - Trả về kết quả
      * - Nếu lỗi, trả về lỗi
      */
-    public function listOnlyTrashed()
+    public function listOnlyTrashed(Request $request)
     {
-        $result = $this->serviceListOnlyTrashed->handle();
+        $request = $request->all();
+        $result = $this->serviceListOnlyTrashed->handle($request);
         return ApiResponse::success($this->resourceList::collection($result));
     }
 }
